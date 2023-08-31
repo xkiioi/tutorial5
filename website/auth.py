@@ -3,6 +3,7 @@ from . import db
 from .models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from .forms import RegistrationForm
 
 auth = Blueprint("auth", __name__)
 
@@ -67,3 +68,8 @@ def sign_up():
 def logout():
     logout_user()
     return redirect(url_for("views.home"))
+
+@auth.route("/profile")
+@login_required
+def profile():
+    return "<h1>hey</h1>"

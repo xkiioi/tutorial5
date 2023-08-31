@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from .models import Post, User, Comment, Like
+from .forms import RegistrationForm, UpdateAccountForm, PostForm
 from . import db
 
 views = Blueprint("views", __name__)
@@ -13,6 +14,17 @@ def home():
     posts = Post.query.all()
     return render_template("home.html", user=current_user, posts=posts)
 
+@views.route("/")
+@views.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html", user=current_user)
+
+@views.route("/")
+@views.route("/pnotes")
+@login_required
+def pnotes():
+    return render_template("home.html", user=current_user)
 
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
