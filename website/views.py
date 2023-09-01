@@ -1,12 +1,12 @@
 import os
 from pathlib import Path
 import secrets
-import json
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from .models import Post, User, Comment, Like, Note
 from .forms import RegistrationForm, UpdateAccountForm, PostForm
 from . import db
+import json
 
 views = Blueprint("views", __name__)
 
@@ -24,10 +24,21 @@ def home():
 def profile():
     return render_template("profile.html", user=current_user)
 
-@views.route("/")
+@views.route('/', methods=['GET', 'POST'])
 @views.route("/pnotes")
 @login_required
 def pnotes():
+    if request.method == 'POST': 
+        note = request.form.get('note')  #Gets the note from the HTML 
+
+        if len(note) < 1:
+            flash('Note is too short!', category='error') 
+        else:
+            new_note = Note(data=note, user_id=current_user.id)  #providing the scheme for the note 
+            db.session.add(new_note) #adding the note to the database 
+            db.session.commit()
+            flash('Note added!', category='success')
+
     return render_template("pnotes.html", user=current_user)
 
 @views.route("/create-post", methods=['GET', 'POST'])
@@ -131,22 +142,6 @@ def like(post_id):
         db.session.commit()
 
     return jsonify({"likes": len(post.likes), "liked": current_user.id in map(lambda x: x.author, post.likes)})
-
-@views.route('/', methods=['GET', 'POST'])
-@login_required
-def notes():
-    if request.method == 'POST': 
-        note = request.form.get('note')#Gets the note from the HTML 
-
-        if len(note) < 1:
-            flash('Note is too short!', category='error') 
-        else:
-            new_note = Note(data=note, user_id=current_user.id)  #providing the scheme for the note 
-            db.session.add(new_note) #adding the note to the database 
-            db.session.commit()
-            flash('Note added!', category='success')
-
-    return render_template("pnotes.html", user=current_user)
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  
