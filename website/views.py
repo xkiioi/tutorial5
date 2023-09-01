@@ -18,6 +18,12 @@ def home():
     posts = Post.query.all()
     return render_template("home.html", user=current_user, posts=posts)
 
+@views.route("/discussion")
+@login_required
+def discussion():
+    posts = Post.query.all()
+    return render_template("discussion.html", user=current_user, posts=posts)
+
 @views.route("/")
 @views.route("/profile")
 @login_required
@@ -68,7 +74,7 @@ def create_post():
             db.session.add(post)
             db.session.commit()
             flash('Post created!', category='success')
-            return redirect(url_for('views.home'))
+            return redirect(url_for('views.discussion'))
 
     return render_template('create_post.html', user=current_user)
 
