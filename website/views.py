@@ -1,6 +1,10 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+import os
+from pathlib import Path
+import secrets
+import json
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, abort
 from flask_login import login_required, current_user
-from .models import Post, User, Comment, Like
+from .models import Post, User, Comment, Like, Note
 from .forms import RegistrationForm, UpdateAccountForm, PostForm
 from . import db
 
@@ -24,7 +28,7 @@ def profile():
 @views.route("/pnotes")
 @login_required
 def pnotes():
-    return render_template("home.html", user=current_user)
+    return render_template("pnotes.html", user=current_user)
 
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
@@ -57,7 +61,7 @@ def delete_post(id):
         db.session.delete(post)
         db.session.commit()
         flash('Post deleted.', category='success')
-
+        
     return redirect(url_for('views.home'))
 
 
@@ -109,7 +113,6 @@ def delete_comment(comment_id):
 
     return redirect(url_for('views.home'))
 
-
 @views.route("/like-post/<post_id>", methods=['POST'])
 @login_required
 def like(post_id):
@@ -128,3 +131,31 @@ def like(post_id):
         db.session.commit()
 
     return jsonify({"likes": len(post.likes), "liked": current_user.id in map(lambda x: x.author, post.likes)})
+
+@views.route('/', methods=['GET', 'POST'])
+@login_required
+def notes():
+    if request.method == 'POST': 
+        note = request.form.get('note')#Gets the note from the HTML 
+
+        if len(note) < 1:
+            flash('Note is too short!', category='error') 
+        else:
+            new_note = Note(data=note, user_id=current_user.id)  #providing the scheme for the note 
+            db.session.add(new_note) #adding the note to the database 
+            db.session.commit()
+            flash('Note added!', category='success')
+
+    return render_template("pnotes.html", user=current_user)
+
+@views.route('/delete-note', methods=['POST'])
+def delete_note():  
+    note = json.loads(request.data) # this function expects a JSON from the INDEX.js file 
+    noteId = note['noteId']
+    note = Note.query.get(noteId)
+    if note:
+        if note.user_id == current_user.id:
+            db.session.delete(note)
+            db.session.commit()
+
+    return jsonify({})
