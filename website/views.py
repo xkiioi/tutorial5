@@ -38,8 +38,22 @@ def pnotes():
             db.session.add(new_note) #adding the note to the database 
             db.session.commit()
             flash('Note added!', category='success')
+            return redirect(url_for('views.pnotes'))
 
     return render_template("pnotes.html", user=current_user)
+
+@views.route('/delete-note', methods=['POST'])
+@login_required
+def delete_note():  
+    note = json.loads(request.data) # this function expects a JSON from the INDEX.js file 
+    noteId = note['noteId']
+    note = Note.query.get(noteId)
+    if note:
+        if note.user_id == current_user.id:
+            db.session.delete(note)
+            db.session.commit()
+
+    return jsonify({})
 
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
@@ -142,15 +156,3 @@ def like(post_id):
         db.session.commit()
 
     return jsonify({"likes": len(post.likes), "liked": current_user.id in map(lambda x: x.author, post.likes)})
-
-@views.route('/delete-note', methods=['POST'])
-def delete_note():  
-    note = json.loads(request.data) # this function expects a JSON from the INDEX.js file 
-    noteId = note['noteId']
-    note = Note.query.get(noteId)
-    if note:
-        if note.user_id == current_user.id:
-            db.session.delete(note)
-            db.session.commit()
-
-    return jsonify({})

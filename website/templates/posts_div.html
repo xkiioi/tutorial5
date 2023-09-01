@@ -5,6 +5,7 @@
 <div id="posts">
   {% for post in posts %}
   <div class="card border-dark">
+    <img class="rounded-circle article-img" src="{{ url_for('static, filename='profile_pics/'+ post.user.image_file) }}">
     <div class="card-header d-flex justify-content-between align-items-center">
       <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
       <div>
