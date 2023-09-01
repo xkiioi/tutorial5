@@ -26,8 +26,8 @@ def discussion():
     posts = Post.query.order_by(Post.date_created.desc()).paginate(page=page, per_page=4)
     return render_template("discussion.html", user=current_user, posts=posts)
 
-@views.route('/', methods=['GET', 'POST'])
-@views.route("/pnotes")
+@views.route("/")
+@views.route("/pnotes", methods=['GET', 'POST'])
 @login_required
 def pnotes():
     if request.method == 'POST': 
@@ -55,7 +55,7 @@ def delete_note():
             db.session.delete(note)
             db.session.commit()
 
-    return jsonify({})
+    return render_template("pnotes.html", user=current_user)
 
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
