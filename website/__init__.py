@@ -33,3 +33,8 @@ def create_app():
         return User.query.get(int(id))
 
     return app
+
+def create_database(app):
+    if not path.exists("website/" + DB_NAME):
+        db.create_all(app=app)
+        print("Created database!")

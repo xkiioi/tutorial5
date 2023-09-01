@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
         
-class UpdateAccountForm(FlaskForm):
+class UpdateProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators= [FileAllowed(['jpg','png'])])
