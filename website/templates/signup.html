@@ -1,80 +1,81 @@
 {% extends "base.html" %} {% block title %}Sign Up{% endblock %}
-{% block content %}
+{% block content %} <!-- Sets the title for this page as "Sign Up" -->
 <div class="content-section">
-  <form method="POST" action="">
-    {{ form.hidden_tag() }}
+  <form method="POST" action=""> <!-- Sign-up form with POST method -->
+    {{ form.hidden_tag() }} <!-- Hidden CSRF token for form security -->
     <fieldset class="form-group">
     </br>
       <legend class="border-bottom mb-4">Join Today</legend>
       <div class="form-group">
-        {{ form.username.label(class="form-control-label") }}
+        {{ form.username.label(class="form-control-label") }} <!-- Label for username input -->
 
         {% if form.username.errors %}
-          {{ form.username(class="form-control form-control-lg is-invalid") }}
+          {{ form.username(class="form-control form-control-lg is-invalid") }}  <!-- Username input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.username.errors %}
-            <span>{{error}}</span>
+            <span>{{error}}</span>  <!-- Displaying username validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.username(class="form-control form-control-lg") }}
+          {{ form.username(class="form-control form-control-lg") }} <!-- Username input -->
+          {% endif %}
       {% endif %}
       </div>
 
 
       <div class="form-group">
-        {{ form.email.label(class="form-control-label") }}
+        {{ form.email.label(class="form-control-label") }} <!-- Label for email input -->
 
         {% if form.email.errors %}
-          {{ form.email(class="form-control form-control-lg is-invalid") }}
+          {{ form.email(class="form-control form-control-lg is-invalid") }}  <!-- Email input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.email.errors %}
-            <span>{{error}}</span>
+            <span>{{error}}</span> <!-- Displaying email validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.email(class="form-control form-control-lg") }}
+          {{ form.email(class="form-control form-control-lg") }} <!-- Email input -->
       {% endif %}
       </div>
 
       <div class="form-group">
-        {{ form.password.label(class="form-control-label") }}
+        {{ form.password.label(class="form-control-label") }}  <!-- Label for password input -->
         {% if form.password.errors %}
-          {{ form.password(class="form-control form-control-lg is-invalid") }}
+          {{ form.password(class="form-control form-control-lg is-invalid") }} <!-- Password input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.password.errors %}
-            <span>{{error}}</span>
+            <span>{{error}}</span> <!-- Displaying password validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.password(class="form-control form-control-lg") }}
+          {{ form.password(class="form-control form-control-lg") }} <!-- Password input -->
       {% endif %}
       </div>
 
       <div class="form-group">
-        {{ form.confirm_password.label(class="form-control-label") }}
+        {{ form.confirm_password.label(class="form-control-label") }}  <!-- Label for password confirmation input -->
         {% if form.confirm_password.errors %}
-          {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+          {{ form.confirm_password(class="form-control form-control-lg is-invalid") }} <!-- Password confirmation input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.confirm_password.errors %}
-            <span>{{error}}</span>
+            <span>{{error}}</span> <!-- Displaying password confirmation validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.confirm_password(class="form-control form-control-lg") }}
+          {{ form.confirm_password(class="form-control form-control-lg") }} <!-- Password confirmation input -->
       {% endif %}
       </div>
     </fieldset>
     </br>
     <div class="form-group">
-      {{form.submit(class="btn btn-outline-info") }}
+      {{form.submit(class="btn btn-outline-info") }} <!-- Submit button for user sign-up -->
     </div>
   </form>
 </div>
 
 <div class="border-top pt-3"
   <small class="text-muted">
-    Already have an account? <a class="ml-2" href="{{url_for('auth.login')}}">Sign In</a>
+    Already have an account? <a class="ml-2" href="{{url_for('auth.login')}}">Sign In</a> <!-- Link to the login page for users with existing accounts -->
   </small>
 </div>
 {% endblock %}

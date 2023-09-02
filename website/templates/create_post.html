@@ -1,18 +1,20 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<h1 align="center">Make a Post</h1>
+{% extends "base.html" %} <!-- Extends the "base.html" template -->
+{% block title %}Home{% endblock %} <!-- Sets the title for this page as "Home" -->
+{% block content %} <!-- Begins the content block -->
 
-<form method="POST">
-  <textarea name="text" id="text" class="form-control"></textarea>
-  <br />
+<h1 align="center">Make a Post</h1>  <!-- Heading centered on the page -->
+
+<form method="POST"> <!-- Form for making a post using the POST method -->
+  <textarea name="text" id="text" class="form-control"></textarea> <!-- Textarea input for post content -->
+  <br/>
   <div align="center">
-    <button type="submit" class="btn btn-lg btn-primary">Post</button>
+    <button type="submit" class="btn btn-lg btn-primary">Post</button>  <!-- Submit button with styling -->
   </div>
-</form>
+</form>  <!-- End of the form -->
 <br/>
 <div align="center">
-  <a href="/discussion"
+  <a href="/discussion" 
     ><button type="button" class="btn btn-lg btn-secondary">Back</button></a
-  >
+  > <!-- Link to the "discussion" page -->
 </div>
-{% endblock %}
+{% endblock %}  <!-- Ends the content block -->

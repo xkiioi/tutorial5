@@ -1,28 +1,28 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+%} <!-- Sets the title for this page as "Home" -->
 </p>
 <h1 align="center">{% block header %}Discussion{% endblock %}</h1>
 <div id="posts">
   {% for post in posts %}
   <div class="card border-dark">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/'+ post.user.image_file) }}">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/'+ post.user.image_file) }}"> <!-- displays user's profile image on posts -->
     <div class="card-header d-flex justify-content-between align-items-center">
       <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
       <div>
-        <span id="likes-count-{{post.id}}">
+        <span id="likes-count-{{post.id}}"> <!-- displaying amount of likes on post -->
         {{ post.likes|length }}</span> 
         {% if user.id in post.likes|map(attribute="author")|list %}
         <i
           class="fas fa-thumbs-up"
           id="like-button-{{post.id}}"
-          onclick="like({{post.id}})"
-        ></i>
+          onclick="like({{post.id}})" 
+        ></i> <!-- access button that allows user to like posts -->
         {% else %}
         <i
           class="far fa-thumbs-up"
           id="like-button-{{post.id}}"
           onclick="like({{post.id}})"
-        ></i>
+        ></i> <!-- displaying amount of likes on post -->
         {% endif %} {% if user.id == post.author %}
         <div class="btn-group">
           <button
@@ -30,11 +30,11 @@
             class="btn btn-sm btn-primary dropdown-toggle"
             data-bs-toggle="dropdown"
           ></button>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu"> 
             <li>
-              <a href="/delete-post/{{post.id}}" class="dropdown-item"
-                >Delete</a
-              >
+              <a href="/delete-post/{{post.id}}" class="dropdown-item" 
+                >Delete</a 
+              > <!-- option to delete post shown in a dropdown menu -->
             </li>
           </ul>
         </div>
@@ -52,7 +52,7 @@
               <div>
                 <a href="/posts/{{comment.user.username}}"
                   >{{comment.user.username}}</a
-                >: {{comment.text}}
+                >: {{comment.text}} <!-- Displaying comment user and text -->
               </div>
               <div>
                 <small class="text-muted"> {{comment.date_created}}</small>
@@ -69,7 +69,7 @@
                         href="/delete-comment/{{comment.id}}"
                         class="dropdown-item"
                         >Delete</a
-                      >
+                      > <!-- allows deletion of comments -->
                     </li>
                   </ul>
                 </div>
@@ -84,16 +84,16 @@
         {% if post.comments|length > 0 %}
         <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
           <small>View {{post.comments|length}} Comments</small>
-        </a>
+        </a> <!-- regard comment lengths, comments button -->
         {% else %}
         <small class="text-muted">No Comments</small>
         {% endif %}
-      </p>
+      </p> <!-- when there are blank comments present -->
       <form
         class="input-group mb-3"
         method="POST"
         action="/create-comment/{{post.id}}"
-      >
+      > <!-- creates commenting as a POST -->
         <input
           type="text"
           id="text"
@@ -101,10 +101,10 @@
           class="form-control"
           placeholder="Comment something!"
         />
-        <button type="submit" class="btn btn-primary">Comment</button>
+        <button type="submit" class="btn btn-primary">Comment</button> <!-- allows commenting on posts by user.id -->
       </form>
     </div>
-    <div class="card-footer text-muted">{{post.date_created}}</div>
+    <div class="card-footer text-muted">{{post.date_created}}</div> <!-- displays the date of when text is posted -->
   </div>
   <br/> {% endfor %}
 </div>
@@ -114,7 +114,7 @@
     <a class="btn btn-outline-info mb-4" href="{{ url_for('views.discussion', page=page_num)}}">{{ page_num }}</a>
   {% else %}
     <a class="btn btn-outline-info mb-4" href="{{ url_for('views.discussion', page=page_num)}}">{{ page_num }}</a>
-  {% endif %}
+  {% endif %} <!-- sends user back to page of posts -->
 {% else %}
   ... 
 {% endif %}
@@ -125,6 +125,7 @@
     ><button type="button" class="btn btn-primary btn-lg">
       Create a Post
     </button></a
-  >
+  ><!-- user implication to create a post -->
 </div>
+<br>
 {% endblock %} {% endblock %}

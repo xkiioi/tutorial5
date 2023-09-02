@@ -1,67 +1,64 @@
 {% extends "base.html" %} {% block title %}Profile{% endblock %}
-{% block content %}
+{% block content %} <!-- Sets the title for this page as "Profile" -->
 <div class="content-section">
   <br>
   <br>
 <div class="media">
-  <img class="rounded-circle article-img" src="{{ image_file }}">
+  <img class="rounded-circle article-img" src="{{ image_file }}">  <!-- Displaying the user's profile image -->
   <div class="media-body">
-    <h2 class="profile-heading">{{ current_user.username }}</h2>
-    <p class="text-secondary">{{ current_user.username }}</p>
+    <h2 class="profile-heading">{{ current_user.username }}</h2> <!-- Displaying the user's username -->
+    <p class="text-secondary">{{ current_user.username }}</p>  <!-- Displaying the user's username again (duplicate) -->
   </div>
 </div>
-  <form method="POST" action="" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
+  <form method="POST" action="" enctype="multipart/form-data"> <!-- Profile editing form with POST method -->
+    {{ form.hidden_tag() }}  <!-- Hidden CSRF token for form security -->
     <fieldset class="form-group">
     </br>
-      <legend class="border-bottom mb-4">Account Information</legend>
+      <legend class="border-bottom mb-4">Account Information</legend> <!-- Form legend -->
       <div class="form-group">
-        {{ form.username.label(class="form-control-label") }}
+        {{ form.username.label(class="form-control-label") }}  <!-- Label for username input -->
         {% if form.username.errors %}
-          {{ form.username(class="form-control form-control-lg is-invalid") }}
+          {{ form.username(class="form-control form-control-lg is-invalid") }} <!-- Username input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.username.errors %}
-            <span>{{ error }}</span>
+            <span>{{ error }}</span> <!-- Displaying username validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.username(class="form-control form-control-lg") }}
+          {{ form.username(class="form-control form-control-lg") }} <!-- Username input -->
       {% endif %}
       </div>
 
       <div class="form-group">
-        {{ form.email.label(class="form-control-label") }}
+        {{ form.email.label(class="form-control-label") }} <!-- Label for email input -->
 
         {% if form.email.errors %}
-          {{ form.email(class="form-control form-control-lg is-invalid") }}
+          {{ form.email(class="form-control form-control-lg is-invalid") }}  <!-- Email input with validation error styling -->
           <div class="invalid-feedback">
             {% for error in form.email.errors %}
-            <span>{{error}}</span>
+            <span>{{error}}</span> <!-- Displaying email validation error messages -->
             {% endfor %}
           </div>
         {% else %}
-          {{ form.email(class="form-control form-control-lg") }}
+          {{ form.email(class="form-control form-control-lg") }} <!-- Email input -->
       {% endif %}
       </div>
 
   </br>
       <div class="form-group">
-        {{ form.picture.label() }}
-        {{ form.picture(class="form-control-file") }}
+        {{ form.picture.label() }}  <!-- Label for profile picture input -->
+        {{ form.picture(class="form-control-file") }}  <!-- Profile picture file input -->
         {% if form.picture.errors %}
           {% for error in form.picture.errors %}
-            <span class="text-danger">{{ error }} </span>
+            <span class="text-danger">{{ error }} </span> <!-- Displaying profile picture validation error messages -->
           {% endfor %}
         {% endif %}
       </div>
 
-
-
-
     </fieldset>
     </br>
     <div class="form-group">
-      {{form.submit(class="btn btn-outline-info") }}
+      {{form.submit(class="btn btn-outline-info") }} <!-- Submit button for profile changes -->
     </div>
   </form>
 </div>

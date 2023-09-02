@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
-<form method="POST">
-  <h3 align="center">Login</h3>
+%} <!-- Sets the title for this page as "Login" -->
+<form method="POST"> <!-- Login form using the POST method -->
+  <h3 align="center">Login</h3> <!-- Heading centered on the page -->
   <div class="form-group">
-    <label for="email">Email Address</label>
+    <label for="email">Email Address</label> <!-- Label for email input -->
     <input
       type="text"
       id="email"
@@ -11,7 +11,7 @@
       class="form-control"
       placeholder="Enter Email"
     />
-    <label for="password">Password</label>
+    <label for="password">Password</label> <!-- Label for password input -->
     <input
       type="password"
       id="password"
@@ -21,7 +21,7 @@
     />
     <br />
     <div align="center">
-      <button class="btn btn-primary" type="submit">Login</button>
+      <button class="btn btn-primary" type="submit">Login</button> <!-- Login button with styling -->
     </div>
   </div>
 </form>
