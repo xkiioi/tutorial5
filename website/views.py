@@ -11,7 +11,7 @@ import json
 
 views = Blueprint("views", __name__)
 
-
+# Home route, requires login
 @views.route("/")
 @views.route("/home")
 @login_required
@@ -19,6 +19,7 @@ def home():
     posts = Post.query.all()
     return render_template("home.html", user=current_user, posts=posts)
 
+# Discussion route, requires login
 @views.route("/discussion")
 @login_required
 def discussion():
@@ -26,6 +27,7 @@ def discussion():
     posts = Post.query.order_by(Post.date_created.desc()).paginate(page=page, per_page=4)
     return render_template("discussion.html", user=current_user, posts=posts)
 
+# Pnotes route, allows for posting and deleting notes
 @views.route("/")
 @views.route("/pnotes", methods=['GET', 'POST'])
 @login_required
@@ -44,6 +46,7 @@ def pnotes():
 
     return render_template("pnotes.html", user=current_user)
 
+# Delete note route
 @views.route('/delete-note', methods=['POST'])
 @login_required
 def delete_note():  
@@ -57,6 +60,8 @@ def delete_note():
 
     return render_template("pnotes.html", user=current_user)
 
+
+# Create post route
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():
@@ -74,7 +79,7 @@ def create_post():
 
     return render_template('create_post.html', user=current_user)
 
-
+# Delete post route
 @views.route("/delete-post/<id>")
 @login_required
 def delete_post(id):
@@ -91,7 +96,7 @@ def delete_post(id):
         
     return redirect(url_for('views.discussion'))
 
-
+# Posts by username route
 @views.route("/posts/<username>")
 @login_required
 def posts(username):
@@ -104,7 +109,7 @@ def posts(username):
     posts = user.posts
     return render_template("posts.html", user=current_user, posts=posts, username=username)
 
-
+# Create comment route
 @views.route("/create-comment/<post_id>", methods=['POST'])
 @login_required
 def create_comment(post_id):
@@ -124,7 +129,7 @@ def create_comment(post_id):
 
     return redirect(url_for('views.discussion'))
 
-
+# Delete comment route
 @views.route("/delete-comment/<comment_id>")
 @login_required
 def delete_comment(comment_id):
